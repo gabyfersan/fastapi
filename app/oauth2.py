@@ -23,20 +23,14 @@ def create_access_token(data: dict):
 
 def verify_access_token(token: str, credentials_exception):
     try:
-        print("aaa", token)
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        # jwt.decode(token, 'secret',   algorithms=['HS256'])
-        print("bbb")
         id: str = payload.get("user_id")
-        print("ccc")
 
         if not id:
             raise credentials_exception
-        print("1111", id)
         token_data = schemas.TokenData(id=id)
 
         # token_data = {"id": id}
-        print("2222", token_data)
 
     except JWTError:
         print("JWTError")
@@ -50,6 +44,5 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
                                           headers={"WWW-Authenticate": "Bearer"})
     print("innan verify_access_token")
     token = verify_access_token(token, credentials_exception)
-    print("2222", token)
     user = db.query(models.User).filter(models.User.id == token.id).first()
     return user
