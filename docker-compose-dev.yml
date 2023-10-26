@@ -5,7 +5,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - ./:/usr/src/app
+      - ./:/Users/gabyfersan/app
     # env_file:
     #     - ./.env
     environment:
